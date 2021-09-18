@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v3.0.4
+        with:
+          file_or_dir: ./eksctl-examples/
+          format: auto
+          strict: false
+          no_warnings: false
+          
+      - name: eksctl-dryRun 
+        uses: robatwave/github-action-eksctl@0.1.2
+        with:
+          args: create custer -f ./eksctl-examples/02-two-nodegroups.yaml --dry-run
+        env: &env
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+      
+      - name: eksctl-run
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: robatwave/github-action-eksctl@0.1.2
+        with:
+          args: create custer -f ./eksctl-examples/02-two-nodegroups.yaml --dry-run
+        env: *env 

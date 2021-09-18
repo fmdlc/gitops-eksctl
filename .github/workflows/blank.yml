@@ -27,6 +27,8 @@ jobs:
           
       - uses: moia-oss/setup-eksctl@v1
         id: install
+        with: 
+          version: "0.57.0"
     
       - name: Run eksctl create (dryRun)
         run: eksctl create custer -f ${{ env.CLUSTER_FILE }} --dry-run
@@ -37,6 +39,7 @@ jobs:
           
   deploy:
     runs-on: ubuntu-latest
+    needs: lint
     env: 
       AWS_REGION: "us-east-1"
       CLUSTER_FILE: "./eksctl-examples/02-two-nodegroups.yaml"
@@ -45,6 +48,8 @@ jobs:
   
       - uses: moia-oss/setup-eksctl@v1
         id: install
+        with: 
+          version: "0.57.0"
     
       - name: Run eksctl create
         run: eksctl create custer -f ${{ env.CLUSTER_FILE }}

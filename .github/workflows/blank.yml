@@ -31,7 +31,7 @@ jobs:
           version: "0.57.0"
     
       - name: Run eksctl create (dryRun)
-        run: eksctl create custer -f ${{ env.CLUSTER_FILE }} --dry-run
+        run: eksctl create cluster -f ${{ env.CLUSTER_FILE }} --dry-run
         env:
           AWS_DEFAULT_REGION: ${{ env.REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -52,7 +52,7 @@ jobs:
           version: "0.57.0"
     
       - name: Run eksctl create
-        run: eksctl create custer -f ${{ env.CLUSTER_FILE }}
+        run: eksctl create cluster -f ${{ env.CLUSTER_FILE }}
         env:
           AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

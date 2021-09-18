@@ -1,0 +1,17 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cluster-3
+  region: eu-north-1
+
+nodeGroups:
+  - name: ng1-public
+    instanceType: m5.xlarge
+    instanceName: custom-node-name
+    desiredCapacity: 4
+  - name: ng2-private
+    instanceType: m5.large
+    desiredCapacity: 10
+    privateNetworking: true

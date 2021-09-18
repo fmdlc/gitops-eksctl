@@ -1,0 +1,57 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: gitops-cluster
+  region: us-east-1
+
+vpc:
+  id: "vpc-0d2beb4565f29a05d"
+  cidr: "10.0.0.0/16"
+  subnets:
+    private:
+      us-east-1a:
+        id: "subnet-0d4e6fed7d50a37df"
+        cidr: "10.0.10.0/24"
+
+      us-east-1b:
+        id: "subnet-00191d8e4221b5281"
+        cidr: "10.0.20.0/24"
+
+      us-east-1c:
+        id: "subnet-0bc147e6b678fa7c8"
+        cidr: "10.0.30.0/24"
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t2.small
+    minSize: 2
+    maxSize: 3
+    desiredCapacity: 2
+    volumeSize: 10
+    volumeType: gp2
+    privateNetworking: true
+    amiFamily: AmazonLinux2
+    ami: ami-01518178201f5d38f
+    iam: &addon_policies
+      withAddonPolicies:
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+    ssh:
+      publicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF9RUjSjbNqQKkYhhcFIURNOFfbffd/jXMP0xA7/RE0Dqf55HNgmfK/x8TrZKu0defh/qHbWyBWwro8+OnPmno8FHUC2OiQ8meRjynFNIvqBkTBvnY/NQjV7eIQZzcdMXJ6N/Oes7OynfKTFnI2NMGAGP7XXDoDvJ6w5WNpeRzR3Ofod1Q2a/nM12la0g6mQ937ttj8JUAwKJv9FIO9wF2/feYI69QEf3SzHZEbdtwlZo/fXTU14AXAR6SVoDyG/YCb7gM+3KqT+lvpuNuYPtq5ErhYv3SjfRIwlSgvl0y3earuxVzRAOfCCq70n2yMd8ftHbCMZgNjPvySZI27Aah"
+
+  - name: ng-2
+    instanceType: t2.small
+    minSize: 1
+    maxSize: 1
+    desiredCapacity: 1
+    volumeSize: 10
+    volumeType: gp2
+    privateNetworking: true
+    amiFamily: AmazonLinux2
+    ami: ami-01518178201f5d38f
+    ssh:
+      publicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF9RUjSjbNqQKkYhhcFIURNOFfbffd/jXMP0xA7/RE0Dqf55HNgmfK/x8TrZKu0defh/qHbWyBWwro8+OnPmno8FHUC2OiQ8meRjynFNIvqBkTBvnY/NQjV7eIQZzcdMXJ6N/Oes7OynfKTFnI2NMGAGP7XXDoDvJ6w5WNpeRzR3Ofod1Q2a/nM12la0g6mQ937ttj8JUAwKJv9FIO9wF2/feYI69QEf3SzHZEbdtwlZo/fXTU14AXAR6SVoDyG/YCb7gM+3KqT+lvpuNuYPtq5ErhYv3SjfRIwlSgvl0y3earuxVzRAOfCCq70n2yMd8ftHbCMZgNjPvySZI27Aah"
+    iam: *addon_policies

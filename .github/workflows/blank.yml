@@ -10,6 +10,9 @@ on:
 
 jobs:
   lint:
+    env: 
+      AWS_REGION: "us-east-1"
+      CLUSTER_FILE: "./eksctl-examples/02-two-nodegroups.yaml"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,21 +25,34 @@ jobs:
           strict: false
           no_warnings: false
           
-      - name: eksctl-dryRun 
-        uses: robatwave/github-action-eksctl@0.1.2
+      - uses: moia-oss/setup-eksctl@v1
+        id: install
         with:
-          args: create custer -f ./eksctl-examples/02-two-nodegroups.yaml --dry-run
+          version: 'latest'
+    
+      - name: Run eksctl create (dryRun)
+        run: eksctl create custer -f ${{ env.CLUSTER_FILE }} --dry-run
         env:
-          AWS_DEFAULT_REGION: us-east-1
+          AWS_DEFAULT_REGION: ${{ env.REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
-      
-      - name: eksctl-run
-        if: ${{ github.ref == 'refs/heads/master' }}
-        uses: robatwave/github-action-eksctl@0.1.2
+          
+  deploy:
+    runs-on: ubuntu-latest
+    env: 
+      AWS_REGION: "us-east-1"
+      CLUSTER_FILE: "./eksctl-examples/02-two-nodegroups.yaml"
+    steps:
+      - uses: actions/checkout@v2
+  
+      - uses: moia-oss/setup-eksctl@v1
+        id: install
         with:
-          args: create custer -f ./eksctl-examples/02-two-nodegroups.yaml --dry-run
+          version: 'latest'
+    
+      - name: Run eksctl create
+        run: eksctl create custer -f ${{ env.CLUSTER_FILE }}
         env:
-          AWS_DEFAULT_REGION: us-east-1
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}

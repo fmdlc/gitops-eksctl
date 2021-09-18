@@ -1,0 +1,24 @@
+# vim: ts=2:sw=2:et:ft=yaml
+---
+extends: relaxed
+rules:
+  indentation:
+    spaces: 2
+    indent-sequences: whatever
+trailing-spaces: disable
+line-length: disable
+empty-lines: disable
+commas:
+  max-spaces-before: 1
+brackets:
+  forbid: false
+  min-spaces-inside: -1
+  max-spaces-inside: -1
+  min-spaces-inside-empty: -1
+  max-spaces-inside-empty: -1
+colons:
+  max-spaces-before: -1
+  max-spaces-after: -1
+braces:
+  max-spaces-inside: -1
+  min-spaces-inside: -1

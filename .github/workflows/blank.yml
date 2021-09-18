@@ -27,8 +27,6 @@ jobs:
           
       - uses: moia-oss/setup-eksctl@v1
         id: install
-        with:
-          version: 'latest'
     
       - name: Run eksctl create (dryRun)
         run: eksctl create custer -f ${{ env.CLUSTER_FILE }} --dry-run
@@ -47,8 +45,6 @@ jobs:
   
       - uses: moia-oss/setup-eksctl@v1
         id: install
-        with:
-          version: 'latest'
     
       - name: Run eksctl create
         run: eksctl create custer -f ${{ env.CLUSTER_FILE }}

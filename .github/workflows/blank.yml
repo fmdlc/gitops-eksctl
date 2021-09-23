@@ -12,7 +12,7 @@ jobs:
   lint:
     env: 
       AWS_REGION: "us-east-1"
-      CLUSTER_FILE: "./eksctl-examples/02-two-nodegroups.yaml"
+      CLUSTER_FILE: "./eksctl-examples/01-simple-cluster.yaml"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     env: 
       AWS_REGION: "us-east-1"
-      CLUSTER_FILE: "./eksctl-examples/02-two-nodegroups.yaml"
+      CLUSTER_FILE: "./eksctl-examples/01-simple-cluster.yaml"
     steps:
       - uses: actions/checkout@v2
   

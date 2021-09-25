@@ -8,4 +8,4 @@ metadata:
 nodeGroups:
   - name: ng-1
     instanceType: t2.small
-    desiredCapacity: 3
+    desiredCapacity: 1
